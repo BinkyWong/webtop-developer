@@ -24,6 +24,13 @@ COPY google-chrome.list /etc/apt/sources.list.d/
 RUN apt-get update &&\
     apt-get install google-chrome-stable code vim git fonts-liberation xdg-utils htop firefox ansible ansible-lint iputils* sshpass sshfs remmina remmina-plugin-rdp remmina-plugin-secret -y 
 
+# Install PlayOnLinux
+
+RUN wget -q "http://deb.playonlinux.com/public.gpg" -O- | sudo apt-key add - &&\
+    wget http://deb.playonlinux.com/playonlinux_bionic.list -O /etc/apt/sources.list.d/playonlinux.list
+
+RUN apt-get update && apt-get install playonlinux -y
+
 # Cleanup
 
 RUN apt-get autoclean && \

@@ -21,7 +21,7 @@ docker built -t webtop .
 
 # Run
 
-docker run --privileged -it -p 3000:3000 webtop
+docker run --shm-size="2gb" --privileged -it -p 3000:3000 webtop
 
 # Open in your browser
 
