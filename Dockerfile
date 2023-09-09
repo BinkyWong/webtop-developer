@@ -9,6 +9,11 @@ RUN apt-get update &&\
     apt-get upgrade -y &&\
     apt-get install wget apt-transport-https software-properties-common -y
 
+# Setup Vagrant GPG keys
+
+RUN wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg &&\
+    echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
+
 # Install signing keys for Chrome and VSCode
 
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - &&\
@@ -22,7 +27,7 @@ COPY google-chrome.list /etc/apt/sources.list.d/
 # Install Google Chrome, Firefox and Vistual Studio Code plus any other required applications
 
 RUN apt-get update &&\
-    apt-get install google-chrome-stable code vim git fonts-liberation xdg-utils htop firefox ansible ansible-lint iputils* sshpass sshfs remmina remmina-plugin-rdp remmina-plugin-secret neofetch -y 
+    apt-get install google-chrome-stable code vim git fonts-liberation xdg-utils htop firefox ansible ansible-lint iputils* sshpass sshfs remmina remmina-plugin-rdp remmina-plugin-secret neofetch virt-manager libvirt-dev build-essential rsync vagrant -y 
 
 # Install DBeaver and MS repo using Ansible :p 
 
@@ -39,13 +44,25 @@ RUN chmod +x ./dotnet-install.sh
 
 RUN ./dotnet-install.sh --channel 7.0
 
-RUN chmod 755 -R /root/.dotnet && chmod 755 /root
+#RUN chmod 755 -R /root/.dotnet && chmod 755 /root
 
-RUN echo "export DOTNET_ROOT=/root/.dotnet" >> /etc/skel/.bashrc
+RUN chmod 755 -R /config/.dotnet
 
-RUN echo "export PATH=$PATH:/root/.dotnet:/root/.dotnet/tools" >> /etc/skel/.bashrc
+#RUN echo "export DOTNET_ROOT=/root/.dotnet" >> /etc/skel/.bashrc
+
+RUN echo "export DOTNET_ROOT=/config/.dotnet" >> /etc/skel/.bashrc
+
+#RUN echo "export PATH=$PATH:/root/.dotnet:/root/.dotnet/tools" >> /etc/skel/.bashrc
+
+RUN echo "export PATH=$PATH:/config/.dotnet:/root/.dotnet/tools" >> /etc/skel/.bashrc
 
 # Cleanup
+
+RUN apt-get install virt-manager -y
+
+# Build Vagrant Plugin
+
+RUN vagrant plugin install vagrant-libvirt
 
 RUN apt-get autoclean && \
   rm -rf \

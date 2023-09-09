@@ -1,4 +1,4 @@
-# Virtual Desktop Webtop Developer Edition
+# Virtual Desktop Webtop Developer DevOps Fully Loaded Edition
 
 Run Visual Studio Code and Google Chrome in Docker in your browser!
 
@@ -14,6 +14,9 @@ This virtual desktop contains:
 * Ansible
 * DotNet 7 
 * Powershell
+* Vagrant
+* KVM/Qemu nested virtualization
+* virt-manager to manage VMs
 
 However you can easily add more applications by editing the Dockerfile. 
 
@@ -21,9 +24,13 @@ However you can easily add more applications by editing the Dockerfile.
 
 docker built -t webtop .
 
-# Run
+# Basic Usage
 
 docker run --privileged -it -p 3000:3000 --shm-size=4gb webtop
+
+# Advanced - Using Docker Compose 
+
+docker-compose up -d --force-recreate
 
 # Open in your browser
 

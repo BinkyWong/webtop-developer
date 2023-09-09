@@ -1,0 +1,34 @@
+---
+version: "2.1"
+services:
+  webtop:
+    image: webtop
+    container_name: webtop
+    security_opt:
+      - seccomp:unconfined #optional
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN    
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - SUBFOLDER=/ #optional
+      - KEYBOARD=en-gb-qwerty #optional
+      - TITLE=Webtop #optional
+    volumes:
+#      - ./config:/config
+#      - /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock
+#      - /var/lib/libvirt/images:/var/lib/libvirt/images
+      - /cctv/camera01/webtop/config:/config 
+      - /var/run/docker.sock:/var/run/docker.sock #optional
+    ports:
+      - 3000:3000
+    devices:
+      - /dev/dri:/dev/dri # optional
+      - /dev/kvm:/dev/kvm # required for KVM/Qemu/Libvirtd to work 
+      - /dev/net/tun:/dev/net/tun # required for networking
+    shm_size: "4gb" #optional
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=1
+    restart: unless-stopped
