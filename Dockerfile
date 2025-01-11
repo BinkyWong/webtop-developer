@@ -1,4 +1,5 @@
-FROM ghcr.io/linuxserver/webtop:ubuntu-mate
+#FROM ghcr.io/linuxserver/webtop:ubuntu-mate
+FROM lscr.io/linuxserver/webtop:ubuntu-mate
 
 WORKDIR /tmp/
 
@@ -27,7 +28,7 @@ COPY google-chrome.list /etc/apt/sources.list.d/
 # Install Google Chrome, Firefox and Vistual Studio Code plus any other required applications
 
 RUN apt-get update &&\
-    apt-get install google-chrome-stable code vim git fonts-liberation xdg-utils htop firefox ansible ansible-lint iputils* sshpass sshfs remmina remmina-plugin-rdp remmina-plugin-secret neofetch virt-manager libvirt-dev build-essential rsync vagrant -y 
+    apt-get install google-chrome-stable code vim git fonts-liberation xdg-utils htop firefox ansible ansible-lint iputils* sshpass sshfs remmina remmina-plugin-rdp remmina-plugin-secret neofetch virt-manager libvirt-dev build-essential rsync vagrant tree plocate-y 
 
 # Install DBeaver and MS repo using Ansible :p 
 
@@ -44,15 +45,9 @@ RUN chmod +x ./dotnet-install.sh
 
 RUN ./dotnet-install.sh --channel 7.0
 
-#RUN chmod 755 -R /root/.dotnet && chmod 755 /root
-
 RUN chmod 755 -R /config/.dotnet
 
-#RUN echo "export DOTNET_ROOT=/root/.dotnet" >> /etc/skel/.bashrc
-
 RUN echo "export DOTNET_ROOT=/config/.dotnet" >> /etc/skel/.bashrc
-
-#RUN echo "export PATH=$PATH:/root/.dotnet:/root/.dotnet/tools" >> /etc/skel/.bashrc
 
 RUN echo "export PATH=$PATH:/config/.dotnet:/root/.dotnet/tools" >> /etc/skel/.bashrc
 

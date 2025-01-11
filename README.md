@@ -22,7 +22,7 @@ However you can easily add more applications by editing the Dockerfile.
 
 # Build
 
-docker built -t webtop .
+docker build --no-cache -t webtop .
 
 # Basic Usage
 
