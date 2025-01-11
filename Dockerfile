@@ -28,7 +28,7 @@ COPY google-chrome.list /etc/apt/sources.list.d/
 # Install Google Chrome, Firefox and Vistual Studio Code plus any other required applications
 
 RUN apt-get update &&\
-    apt-get install google-chrome-stable code vim git fonts-liberation xdg-utils htop firefox ansible ansible-lint iputils* sshpass sshfs remmina remmina-plugin-rdp remmina-plugin-secret neofetch virt-manager libvirt-dev build-essential rsync vagrant tree plocate-y 
+    apt-get install google-chrome-stable code vim git fonts-liberation xdg-utils htop firefox ansible ansible-lint iputils* sshpass sshfs remmina remmina-plugin-rdp remmina-plugin-secret neofetch virt-manager libvirt-dev build-essential rsync vagrant tree plocate -y 
 
 # Install DBeaver and MS repo using Ansible :p 
 
